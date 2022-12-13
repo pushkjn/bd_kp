@@ -20,11 +20,11 @@ module.exports = (env, argv) => {
                     type: 'asset/resource'
                 },
                 {
-                    test: /\.jsx?$/, 
-                    exclude: /(node_modules)/,  
-                    loader: "babel-loader",   
+                    test: /\.jsx?$/,
+                    exclude: /(node_modules)/,
+                    loader: "babel-loader",
                     options: {
-                        presets: [ "@babel/preset-react" ]    
+                        presets: [ "@babel/preset-react" ]
                     }
                 }
             ]
@@ -32,6 +32,14 @@ module.exports = (env, argv) => {
         mode: isDevelopment ? 'development' : 'production',
         resolve: {
             extensions: [ '.js', '.jsx' ]
+        },
+        devServer: {
+            historyApiFallback: true,
+            static: {
+                directory: path.join(__dirname, 'dist'),
+            },
+            compress: true,
+            port: 9002
         },
         plugins: [
             new HtmlWebpackPlugin({
