@@ -1,19 +1,19 @@
 const { Client } = require('pg')
 const config = require('../config')
 const express = require('express')
+const cors = require('cors')
 
 const startApp = (dbClient) => {
     const app = express()
 
-    app.get('/cars', (req, res) => {
+    app.get('/cars', cors({ origin: 'http://localhost:9002' }), (req, res) => {
         dbClient.query('select * from cars', (dberr, dbres) => {
             if (dberr) {
                 res.sendStatus(404)
             }
 
             else {
-                const cars = JSON.stringify(dbres)
-                res.json(cars)
+                res.json(dbres.rows)
             }
         })
     })
@@ -30,7 +30,7 @@ const main = async () => {
         } else {
 
             startApp(client)
-            
+
         }
     })
 }
