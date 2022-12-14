@@ -1,10 +1,10 @@
 const Router = require('express')
-
 const router = new Router()
 
-router.get('/')
-router.get('/:id')
-router.post('/')
-router.delete('/')
+const clientController = require("../controlers/clientController");
 
+router.get('/all', clientController.getAllClients)
+router.get('/:id', clientController.getClientById)
+router.post('/add', clientController.addClient)
+router.delete('/delete/:id', clientController.deleteClient)
 module.exports = router

@@ -1,10 +1,10 @@
 const Router = require('express')
-
 const router = new Router()
 
-router.get('/')
-router.get('/:id')
-router.post('/')
-router.delete('/')
+const showroomsController = require("../controlers/showroomsController");
 
+router.get('/all', showroomsController.getAllShowrooms)
+router.get('/:id', showroomsController.getShowroomById)
+router.post('/add', showroomsController.addShowroom)
+router.delete('/delete/:id', showroomsController.deleteShowroom)
 module.exports = router

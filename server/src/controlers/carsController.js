@@ -15,8 +15,7 @@ class CarsController {
 
     async addCar(req, res, next) {
         try {
-            let {brand, model, assembly, body_style, power, acceleration} = req.body
-            const car = await Cars.create({brand, model, assembly, body_style, power, acceleration})
+            const car = await Cars.create(req.body)
             return res.json(car)
         } catch (e) {
             next(ApiError.badRequest(e.message))
@@ -29,6 +28,8 @@ class CarsController {
             await Cars.destroy({
                 where: {id}
             })
+            const cars = await Cars.findAll()
+            return res.json(cars)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
