@@ -1,40 +1,30 @@
-const { Client } = require('pg')
-const config = require('../config')
+require('dotenv').config()
 const express = require('express')
+const sequelize = require('./db')
 const cors = require('cors')
+const router = require('./routes/index')
+const errorHandler = require('./middleware/ErrorHandlingMiddleware')
 
-const startApp = (dbClient) => {
-    const app = express()
 
-    app.get('/cars', cors({ origin: 'http://localhost:9002' }), (req, res) => {
-        dbClient.query('select * from cars', (dberr, dbres) => {
-            if (dberr) {
-                res.sendStatus(404)
-            }
+const PORT = process.env.PORT || 5000
 
-            else {
-                res.json(dbres.rows)
-            }
-        })
-    })
+const app = express()
+app.use(cors())
+app.use(express.json())
+app.use('/api', router)
 
-    app.listen(3000, () => console.log('started server'))
+
+app.use(errorHandler)
+
+
+const start = async() => {
+    try {
+        await sequelize.authenticate()
+        await sequelize.sync()
+        app.listen(PORT, () => console.log(`server ${PORT}`))
+    } catch(e) {
+        console.log(e)
+    }
 }
 
-const main = async () => {
-
-    const client = new Client(config)
-    client.connect((err) => {
-        if (err) {
-            console.error('connection error', err.stack)
-        } else {
-
-            startApp(client)
-
-        }
-    })
-}
-
-main()
-
-
+start()

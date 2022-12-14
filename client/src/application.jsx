@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 const Main = () => {
     useEffect(() => {
-        fetch('http://localhost:3000/cars')
+        fetch('http://localhost:3000/api/cars/all')
             .then(res => res.json())
             .then(res => console.log(res))
 
