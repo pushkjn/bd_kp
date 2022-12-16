@@ -22,7 +22,10 @@ export const Header = () => (
                     direction="row"
                     gap={2}
                 >
-                    <Link to="/main">link</Link>
+                    <a href="/clients">clients</a>
+                    <a href="/showrooms">showrooms</a>
+                    <a href="/data">data</a>
+                    <a href="/">main screen</a>
                 </Stack>
             </Stack>
         </Container>
